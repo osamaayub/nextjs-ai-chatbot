@@ -5,6 +5,8 @@
 
 A streaming AI support chatbot for any website, built with Next.js 16 and the Vercel AI SDK 7. It answers only from your business facts, streams replies word by word, and is hardened for production: input validation, rate limiting, origin checks, cost limits and security headers.
 
+**Live demo:** https://nextjs-ai-chatbot-three-kappa-qi5cfa7xvl.vercel.app (demo mode, no API key)
+
 **Tutorial:** [Build an AI Chatbot in Next.js 16 with the Vercel AI SDK 7](https://youtu.be/YjKn5UeH9t4) on [@osamaayubdev](https://www.youtube.com/@osamaayubdev)
 
 > The code exactly as shown in the video is on the [`video-version`](https://github.com/osamaayub/nextjs-ai-chatbot/tree/video-version) tag. `main` has the production-ready structure described below.
