@@ -17,6 +17,7 @@ A streaming AI support chatbot for any website, built with Next.js 16 and the Ve
 - **Typing indicator, stop and retry**. Stop also cancels the model call, so you don't pay for unread text
 - **Demo mode**: runs with no API key using the AI SDK mock model
 - **Secure by default** (see [Security](#security))
+- **Fast and SEO-ready**: Lighthouse 93+ performance and 100 for accessibility, best practices and SEO (mobile). Open Graph image, sitemap, robots, JSON-LD, no layout shift
 - **Tested**: 12 unit tests with Vitest, CI on every push
 
 ## Quick start
@@ -41,6 +42,7 @@ Validated with Zod on first use (`src/server/env.ts`). A bad value fails fast wi
 | `OPENAI_MODEL` | No | `gpt-5.4-mini` | Any OpenAI model ID |
 | `CHAT_RATE_LIMIT_PER_MINUTE` | No | `10` | Messages per minute per IP |
 | `ALLOWED_ORIGINS` | No | empty | Extra sites allowed to call `/api/chat`, comma-separated |
+| `NEXT_PUBLIC_SITE_URL` | No | Vercel URL | Canonical URL for SEO tags and the sitemap |
 
 ## Architecture
 
@@ -49,8 +51,14 @@ Feature-first structure. Routes stay thin, and the chat logic is plain TypeScrip
 ```
 src/
   app/
-    page.tsx                     Page shell, demo badge streamed with Suspense
+    page.tsx                     Static page shell + JSON-LD, chat loaded lazily
+    layout.tsx                   SEO metadata, Open Graph, viewport
+    opengraph-image.tsx          Generated social share image
+    robots.ts, sitemap.ts        Crawling rules and sitemap
+    manifest.ts                  Web app manifest
     api/chat/route.ts            Thin route: calls chatHandler
+  config/
+    site.ts                      Site name, URL and SEO text
   server/
     env.ts                       Typed, validated config (server only)
     logger.ts                    Structured JSON logs with request IDs (never logs message text)
@@ -59,6 +67,8 @@ src/
     instructions.ts              The bot's role and business facts
     schema.ts                    Zod validation of untrusted requests
     components/
+      lazy-chat.tsx              Loads the chat client after first paint
+      chat-skeleton.tsx          Same-size placeholder (no layout shift)
       chat.tsx                   useChat, status, stop, retry
       message-list.tsx           Renders text parts safely
       chat-input.tsx             Input with length limit
@@ -71,6 +81,8 @@ src/
       index.ts                   Composition root: wires real dependencies
 test/                            Vitest tests for schema, rate limit and handler
 ```
+
+Full system design, decisions and scaling plan: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 
 ### Request flow
 
