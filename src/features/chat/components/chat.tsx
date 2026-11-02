@@ -17,7 +17,7 @@ export function Chat({ badge }: { badge?: React.ReactNode }) {
   const send = (text: string) => sendMessage({ text });
 
   return (
-    <div className="flex h-[640px] w-full max-w-xl flex-col overflow-hidden rounded-3xl border border-white/10 bg-zinc-900/80 shadow-2xl shadow-indigo-950/40">
+    <div className="flex h-[min(640px,calc(100dvh-10rem))] w-full max-w-xl flex-col overflow-hidden rounded-3xl border border-white/10 bg-zinc-900/80 shadow-2xl shadow-indigo-950/40">
       <header className="flex items-center gap-3 border-b border-white/10 px-5 py-4">
         <div className="grid h-10 w-10 place-items-center rounded-full bg-indigo-500 text-lg font-bold text-white">A</div>
         <div className="flex-1">
